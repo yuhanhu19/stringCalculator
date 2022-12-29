@@ -28,5 +28,13 @@ namespace stringCalculator
             var result = stringCalculator.Add("1,2");
             Assert.Equal(3, result);
         }
+        
+        [Fact]
+        public void ShouldReturn6GivenStringWith1And2And3SeparatedByNewLinesAndCommas()
+        {
+            var stringCalculator = new StringCalculator();
+            var result = stringCalculator.Add("1\n2,3");
+            Assert.Equal(6, result);
+        }
     }
 }
