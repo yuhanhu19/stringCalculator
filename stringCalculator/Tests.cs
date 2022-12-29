@@ -12,5 +12,13 @@ namespace stringCalculator
             var result = stringCalculator.Add("");
             Assert.Equal(0, result);
         }
+
+        [Fact]
+        public void ShouldReturn1GivenStringWith1()
+        {
+            var stringCalculator = new StringCalculator();
+            var result = stringCalculator.Add("1");
+            Assert.Equal(1, result);
+        }
     }
 }
