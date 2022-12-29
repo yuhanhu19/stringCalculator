@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using Xunit.Sdk;
 
 namespace stringCalculator
 {
@@ -10,12 +12,8 @@ namespace stringCalculator
             {
                 return 0;
             }
-            return 1;
-        }
-        
-        public int Add(string numAsString1, string numAsString2)
-        {
-            return int.Parse(numAsString1)+int.Parse(numAsString2);
+            var strings = numAsString.Split(',');
+            return strings.Select(int.Parse).ToList().Sum();;
         }
     }
 }
