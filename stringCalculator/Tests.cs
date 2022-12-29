@@ -46,11 +46,14 @@ namespace stringCalculator
         }
         
         [Fact]
-        public void ShouldReturn4GivenStringWith1And3And3SeparatedByCustomizedDelimiters()
+        public void ShouldReturnSumGivenStringSeparatedByCustomDelimiters()
         {
             var stringCalculator = new StringCalculator();
-            var result = stringCalculator.Add("//;\n1;3");
-            Assert.Equal(4, result);
+            var result1 = stringCalculator.Add("//;\n1;3");
+            var result2 = stringCalculator.Add("//sep\n2sep5");
+            
+            Assert.Equal(4, result1);
+            Assert.Equal(7, result2);
         }
     }
 }
