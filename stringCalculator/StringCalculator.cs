@@ -28,12 +28,11 @@ namespace stringCalculator
                 throw new FormatException("Number expected but EOF found.");
             }
 
-            var numberList = strings.Where(s => s != "").ToArray().Select(int.Parse);
+            var numberList = strings.Where(s => s != "").ToArray().Select(int.Parse).Where(num => num < 1000);
             var negatives = numberList.Where(num => num < 0);
             if (!negatives.Any()) return numberList.ToList().Sum();
             var negativesString = String.Join(", ", negatives.Select(n => n.ToString()));
             throw new ArgumentException($"Negative number(s) not allowed: {negativesString}");
-
         }
     }
 }
