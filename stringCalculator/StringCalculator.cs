@@ -21,11 +21,13 @@ namespace stringCalculator
                 var newDelimiterString = splitString.First();
                 numberString = numberString.TrimStart('/').Replace(newDelimiterString, "\n");
             }
+
             var strings = numberString.Split(delimiters.ToArray());
-            if (strings.Last()=="")
+            if (strings.Last() == "")
             {
                 throw new FormatException("Number expected but EOF found.");
             }
+
             return strings.Where(s => s != "").ToArray().Select(int.Parse).ToList().Sum();
         }
     }
