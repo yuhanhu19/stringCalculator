@@ -1,14 +1,16 @@
+using System;
+
 namespace stringCalculator
 {
     public class StringCalculator
     {
         public int Add(string numAsString)
         {
-            if (numAsString == "1")
+            if (String.IsNullOrEmpty(numAsString))
             {
-                return 1;
+                return 0;
             }
-            return 0;
+            return 1;
         }
     }
 }
