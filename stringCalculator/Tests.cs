@@ -44,5 +44,13 @@ namespace stringCalculator
             var exception = Assert.Throws<FormatException>(() => stringCalculator.Add("1,2,"));
             Assert.Equal("Number expected but EOF found.",exception.Message);
         }
+        
+        [Fact]
+        public void ShouldReturn4GivenStringWith1And3And3SeparatedByCustomizedDelimiters()
+        {
+            var stringCalculator = new StringCalculator();
+            var result = stringCalculator.Add("//;\n1;3");
+            Assert.Equal(4, result);
+        }
     }
 }
