@@ -63,5 +63,15 @@ namespace stringCalculator
             var exception = Assert.Throws<ArgumentException>(() => stringCalculator.Add("1,-2"));
             Assert.Equal("Negative number(s) not allowed: -2", exception.Message);
         }
+        
+        [Fact]
+        public void ShouldIgnoreNumbersGreaterThan1000()
+        {
+            var stringCalculator = new StringCalculator();
+            var result = stringCalculator.Add("2,1001");
+            Assert.Equal(2, result);
+        }
+        
+        
     }
 }
