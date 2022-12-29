@@ -8,6 +8,10 @@ namespace stringCalculator
     {
         public int Add(string numAsString)
         {
+            if (!char.IsDigit(numAsString.Last()))
+            {
+                throw new FormatException("Number expected but EOF found.");
+            }
             if (string.IsNullOrEmpty(numAsString))
             {
                 return 0;
