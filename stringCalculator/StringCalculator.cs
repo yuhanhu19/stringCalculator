@@ -1,7 +1,6 @@
 using System;
-using System.Globalization;
+using System.Collections.Generic;
 using System.Linq;
-using Xunit.Sdk;
 
 namespace stringCalculator
 {
@@ -9,23 +8,25 @@ namespace stringCalculator
     {
         public int Add(string numAsString)
         {
-            // if (numAsString.StartsWith("//"))
-            // {
-            //     
-            // }
-
             if (string.IsNullOrEmpty(numAsString))
             {
                 return 0;
             }
 
-            var strings = numAsString.Split(new char[] { ',', '\n' });
-            if (strings.Contains(null) || strings.Contains(""))
+            var delimiters = new List<char> { ',', '\n' };
+            string numberString = numAsString;
+            if (numberString.StartsWith("//"))
+            {
+                var splitString = numberString.TrimStart('/').Split('\n');
+                var newDelimiterString = splitString.First();
+                numberString = numberString.TrimStart('/').Replace(newDelimiterString, "\n");
+            }
+            var strings = numberString.Split(delimiters.ToArray());
+            if (strings.Last()=="")
             {
                 throw new FormatException("Number expected but EOF found.");
             }
-
-            return strings.Select(int.Parse).ToList().Sum();
+            return strings.Where(s => s != "").ToArray().Select(int.Parse).ToList().Sum();
         }
     }
 }
