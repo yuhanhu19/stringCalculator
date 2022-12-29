@@ -12,8 +12,8 @@ namespace stringCalculator
             {
                 return 0;
             }
-            var strings = numAsString.Split(',');
-            return strings.Select(int.Parse).ToList().Sum();;
+            var strings = numAsString.Split(new char[]{',', '\n'});
+            return strings.Select(int.Parse).ToList().Sum();
         }
     }
 }
