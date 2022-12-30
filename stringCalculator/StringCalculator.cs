@@ -13,26 +13,70 @@ namespace stringCalculator
                 return 0;
             }
 
-            var delimiters = new List<char> { ',', '\n' };
-            string numberString = numAsString;
+            var splitStrings = GetSplitStrings(numAsString);
+
+            IList<string> errors = CheckAllPossibleErrors(splitStrings);
+            if (errors.Any())
+            {
+                throw new Exception(string.Join("\n", errors));
+            }
+
+            IList<int> validNumbers = GetValidNumbers(splitStrings);
+
+            return validNumbers.Sum();
+        }
+
+        private IList<int> GetValidNumbers(string[] numberStringToParse)
+        {
+            return numberStringToParse.Select(s => int.Parse(s)).Where(number => number <= 1000).ToList();
+        }
+
+        private IList<string> CheckAllPossibleErrors(string[] splitStrings)
+        {
+            IList<string> errors = new List<string>();
+            IList<string> negatives = new List<string>();
+            foreach (var s in splitStrings)
+            {
+                if (!IsNumber(s))
+                {
+                    errors.Add($"{s} is not a number.");
+                }
+
+                if (IsNegative(s))
+                {
+                    negatives.Add(s);
+                }
+            }
+
+            if (negatives.Any())
+            {
+                errors.Add("Negative number(s) not allowed: " + string.Join(",", negatives));
+            }
+
+            return errors;
+        }
+
+        private bool IsNegative(string s)
+        {
+            return s.Contains('-');
+        }
+
+        private bool IsNumber(string s)
+        {
+            return int.TryParse(s, out _);
+        }
+
+        private string[] GetSplitStrings(string numberString)
+        {
+            var delimiters = new[] { ",", "\n" };
             if (numberString.StartsWith("//"))
             {
                 var splitString = numberString.TrimStart('/').Split('\n');
                 var newDelimiterString = splitString.First();
-                numberString = numberString.TrimStart('/').Replace(newDelimiterString, "\n");
+                return splitString[1].Split(new[] { newDelimiterString }, StringSplitOptions.None);
             }
 
-            var strings = numberString.Split(delimiters.ToArray());
-            if (strings.Last() == "")
-            {
-                throw new FormatException("Number expected but EOF found.");
-            }
-
-            var numberList = strings.Where(s => s != "").ToArray().Select(int.Parse).Where(num => num < 1000);
-            var negatives = numberList.Where(num => num < 0);
-            if (!negatives.Any()) return numberList.ToList().Sum();
-            var negativesString = String.Join(", ", negatives.Select(n => n.ToString()));
-            throw new ArgumentException($"Negative number(s) not allowed: {negativesString}");
+            return numberString.Split(delimiters, StringSplitOptions.None);
         }
     }
 }
