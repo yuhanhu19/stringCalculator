@@ -41,8 +41,8 @@ namespace stringCalculator
         public void ShouldThrowExceptionWhenInputEndsWithDelimiter()
         {
             var stringCalculator = new StringCalculator();
-            var exception = Assert.Throws<FormatException>(() => stringCalculator.Add("1,2,"));
-            Assert.Equal("Number expected but EOF found.", exception.Message);
+            var exception = Assert.Throws<Exception>(() => stringCalculator.Add("1,2,"));
+            Assert.Equal(" is not a number.", exception.Message);
         }
 
         [Fact]
@@ -60,10 +60,10 @@ namespace stringCalculator
         public void ShouldThrowExceptionGivenNegativeNumbers()
         {
             var stringCalculator = new StringCalculator();
-            var exception = Assert.Throws<ArgumentException>(() => stringCalculator.Add("1,-2"));
+            var exception = Assert.Throws<Exception>(() => stringCalculator.Add("1,-2"));
             Assert.Equal("Negative number(s) not allowed: -2", exception.Message);
         }
-        
+
         [Fact]
         public void ShouldIgnoreNumbersGreaterThan1000()
         {
@@ -71,7 +71,13 @@ namespace stringCalculator
             var result = stringCalculator.Add("2,1001");
             Assert.Equal(2, result);
         }
-        
-        
+
+        [Fact]
+        public void ShouldReturnMultipleErrorsWhenHappen()
+        {
+            var stringCalculator = new StringCalculator();
+            var exception = Assert.Throws<Exception>(() => stringCalculator.Add("//|\n1|-3|"));
+            Assert.Equal(" is not a number.\nNegative number(s) not allowed: -3", exception.Message);
+        }
     }
 }
